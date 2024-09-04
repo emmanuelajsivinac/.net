@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
 const string GetPersonEndpointName = "GetPerson";
+const string GetAnimalEndpointName = "GetAnimal";
 
 List<PeopleDto> people = [
  new (
@@ -26,12 +27,36 @@ List<PeopleDto> people = [
  )
 ];
 
-// GET / people "Genera data"
+List<AnimalDto> animals = [
+ new (
+    1,
+    "Guffy",
+    "Dog",
+    "Black"
+ ),
+ new (
+    2,
+    "Princess",
+    "Cat",
+    "Orange"
+ )
+];
+
+// GET /  "Genera data"
 app.MapGet("people", () => people);
 
-// GET / people "Specified data"
+app.MapGet("animals", () => animals);
+
+
+// GET /"Specified data"
+
 app.MapGet("people/{Id}", (int Id) => people.Find(person => person.Id == Id))
 .WithName(GetPersonEndpointName);
+
+app.MapGet("animals/{Id}", (int Id) => animals.Find(animal => animal.Id == Id))
+.WithName(GetAnimalEndpointName);
+
+// POST / "Send and Update Data"
 
 app.MapPost("people", (CreatePeopleDto newPerson)=>
 {
@@ -47,6 +72,19 @@ app.MapPost("people", (CreatePeopleDto newPerson)=>
 
 });
 
+app.MapPost("animals", (CreateAnimalsDto newAnimal)=>
+{
+    AnimalDto Animal = new(
+        animals.Count + 1,
+        newAnimal.Name,
+        newAnimal.Kind,
+        newAnimal.Color);
+    
+    animals.Add(Animal);
+
+    return Results.CreatedAtRoute(GetAnimalEndpointName, new{id = Animal.Id}, Animal);
+
+});
 
 app.MapGet("/", () => "Hello World!");
 

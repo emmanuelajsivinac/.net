@@ -1,9 +1,8 @@
 namespace BasicAPI.Dtos;
 
-public record class AnimalDto
+public record class CreateAnimalsDto
 (
-    int Id, 
     string Name,
     string Kind,
-    string color
+    string Color
 );
