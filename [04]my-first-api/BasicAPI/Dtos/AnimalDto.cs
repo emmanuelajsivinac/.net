@@ -5,5 +5,5 @@ public record class AnimalDto
     int Id, 
     string Name,
     string Kind,
-    string color
+    string  Color
 );

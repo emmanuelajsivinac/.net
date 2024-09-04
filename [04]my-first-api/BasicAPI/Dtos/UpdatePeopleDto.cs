@@ -1,6 +1,6 @@
 namespace BasicAPI.Dtos;
 
-public record class CreatePeopleDto
+public record class UpdatePersonDto
 (
     string Name,
     string ValueRandom,
